@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spacetoon Legacy | شباب المستقبل</title>
+    <style>
+        /* --- RETRO 2013 CSS STYLING --- */
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+        :root {
+            --spacetoon-yellow: #ffcc00;
+            --spacetoon-red: #ff3333;
+            --spacetoon-blue: #0066cc;
+            --bg-space: #050510;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-space);
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            font-family: 'Cairo', sans-serif;
+            color: white;
+            overflow-x: hidden;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="font-size:20px"><text y="18">🚀</text></svg>'), auto;
+        }
+
+        /* Header & Logo */
+        header {
+            background: linear-gradient(180deg, #ff9900 0%, #ff6600 100%);
+            padding: 15px;
+            text-align: center;
+            border-bottom: 5px solid #fff;
+            box-shadow: 0 0 20px #ff6600;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1.logo {
+            margin: 0;
+            font-size: 3rem;
+            text-shadow: 3px 3px 0px #000, 5px 5px 0px var(--spacetoon-blue);
+            animation: bounce 2s infinite;
+        }
+
+        /* Marquee Ticker */
+        .news-ticker {
+            background: var(--spacetoon-blue);
+            color: white;
+            padding: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            border-bottom: 3px solid #003366;
+            font-weight: bold;
+        }
+        .news-ticker span {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 15s linear infinite;
+        }
+
+        /* The Planets Navigation */
+        .planets-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            gap: 15px;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .planet {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #fff, #ccc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 3px #000;
+            box-shadow: 0 0 15px rgba(255,255,255,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border: 3px solid rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+            user-select: none;
+        }
+
+        /* Individual Planet Colors */
+        .planet.action { background: radial-gradient(circle at 30% 30%, #ff4d4d, #990000); }
+        .planet.adventure { background: radial-gradient(circle at 30% 30%, #4dff4d, #006600); }
+        .planet.zomoroda { background: radial-gradient(circle at 30% 30%, #ff99cc, #cc0066); }
+        .planet.comedy { background: radial-gradient(circle at 30% 30%, #ffff66, #ffcc00); color: #000; }
+        .planet.sports { background: radial-gradient(circle at 30% 30%, #3399ff, #003399); }
+        .planet.science { background: radial-gradient(circle at 30% 30%, #9999ff, #330066); }
+
+        .planet:hover {
+            transform: scale(1.2) rotate(10deg);
+            box-shadow: 0 0 25px currentColor;
+            z-index: 5;
+        }
+
+        /* Main Layout */
+        .container {
+            display: flex;
+            max-width: 1000px;
+            margin: 20px auto;
+            gap: 20px;
+            padding: 0 20px;
+        }
+
+        .main-content {
+            flex: 3;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid #ffffff55;
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .sidebar {
+            flex: 1;
+            background: rgba(0,0,0,0.6);
+            border-radius: 15px;
+            padding: 15px;
+            border: 2px solid var(--spacetoon-yellow);
+        }
+
+        /* TV Screen Effect */
+        .tv-screen {
+            width: 100%;
+            height: 300px;
+            background: #000;
+            border: 10px solid #333;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .tv-content {
+            color: #0f0;
+            font-family: monospace;
+            text-align: center;
+        }
+
+        /* Funny Buttons */
+        .btn-retro {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: linear-gradient(to bottom, #eeeeee 5%, #cccccc 100%);
+            border: 1px solid #999;
+            border-radius: 8px;
+            color: #333;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #888;
+            transition: all 0.1s;
+        }
+        .btn-retro:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #888;
+        }
+
+        /* Animations */
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Particle Trail Canvas */
+        #trail-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .hidden-msg {
+            display: none;
+            color: yellow;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="trail-canvas"></canvas>
+
+    <header>
+        <h1 class="logo">SPACETOON</h1>
+        <p>قناة شباب المستقبل</p>
+    </header>
+
+    <div class="news-ticker">
+        <span>⭐ خبر عاجل: المحقق كونان يكتشف دليلاً جديداً! ⭐ عودة أبطال الديجيتال في موسم جديد ⭐ كوكب أكشن يدعوكم للمغامرة!</span>
+    </div>
+
+    <div class="planets-nav">
+        <div class="planet action" onclick="changeTheme('action', '#ff4d4d')">أكشن</div>
+        <div class="planet adventure" onclick="changeTheme('adventure', '#4dff4d')">مغامرات</div>
+        <div class="planet zomoroda" onclick="changeTheme('zomoroda', '#ff99cc')">زمردة</div>
+        <div class="planet comedy" onclick="changeTheme('comedy', '#ffff66')">كوميديا</div>
+        <div class="planet sports" onclick="changeTheme('sports', '#3399ff')">رياضة</div>
+        <div class="planet science" onclick="changeTheme('science', '#9999ff')">علوم</div>
+    </div>
+
+    <div class="container">
+        <main class="main-content">
+            <h2 id="planet-title">مرحباً بكم في سبيستون</h2>
+            
+            <div class="tv-screen" id="tv">
+                <div class="tv-content">
+                    <h3>... جاري التحميل ...</h3>
+                    <p>انقر على زر "تشغيل" بالأسفل</p>
+                </div>
+            </div>
+
+            <p>شاهد أروع المسلسلات الكرتونية القديمة والجديدة. اختر كوكبك المفضل من القائمة في الأعلى!</p>
+            
+            <button class="btn-retro" onclick="playEffect()">📺 تشغيل العرض</button>
+        </main>
+
+        <aside class="sidebar">
+            <h3>ألعاب و تسلية</h3>
+            <button class="btn-retro" onclick="randomFact()">💡 هل تعلم؟</button>
+            <div id="fact-box" style="padding:10px; font-size:0.9rem;"></div>
+            
+            <hr>
+            
+            <h3>تصويت</h3>
+            <p>من هو أفضل شخصية؟</p>
+            <label><input type="radio" name="hero"> غوكو</label><br>
+            <label><input type="radio" name="hero"> كونان</label><br>
+            <label><input type="radio" name="hero"> لوفي</label><br>
+            <button class="btn-retro" style="background:#ffcc00" onclick="alert('شكراً لتصويتك! تم إرسال البيانات إلى كوكب علوم.')">صوّت الآن</button>
+        
+            <hr>
+            <button class="btn-retro" style="background:red; color:white; border-color:darkred;" onclick="shakeScreen()">🚫 لا تضغط هنا</button>
+        </aside>
+    </div>
+
+    <script>
+        // --- JAVASCRIPT EFFECTS ---
+
+        // 1. Theme Changer based on Planet
+        function changeTheme(planetName, color) {
+            document.body.style.background = `radial-gradient(circle, ${color}22 0%, #000 100%)`;
+            document.getElementById('planet-title').innerText = "أهلاً بك في كوكب " + getArabicName(planetName);
+            document.getElementById('planet-title').style.color = color;
+            
+            // Play a simulated sound (visual feedback in console)
+            console.log("Playing theme sound for: " + planetName);
+        }
+
+        function getArabicName(name) {
+            const names = {
+                'action': 'أكشن (إثارة وغموض)',
+                'adventure': 'مغامرات (خيال وتشويق)',
+                'zomoroda': 'زمردة (للفتيات فقط)',
+                'comedy': 'كوميديا (الضحك المتواصل)',
+                'sports': 'رياضة (تحدي وقوة)',
+                'science': 'علوم (اكتشاف ومعرفة)'
+            };
+            return names[name] || name;
+        }
+
+        // 2. Random Spacetoon Facts
+        const facts = [
+            "هل تعلم أن صوت المحقق كونان هو نفس صوت الكابتن ماجد؟",
+            "سابق ولاحق تم إنتاجه لتحفيز الأطفال على سباقات السيارات الصغيرة.",
+            "كوكب بون بون مخصص للأطفال الصغار جداً.",
+            "عدنان ولينا هو أحد أقدم المسلسلات التي عرضت."
+        ];
+
+        function randomFact() {
+            const fact = facts[Math.floor(Math.random() * facts.length)];
+            const box = document.getElementById('fact-box');
+            box.style.display = 'none';
+            box.innerText = fact;
+            // Fade in effect
+            setTimeout(() => { box.style.display = 'block'; }, 100);
+        }
+
+        // 3. Screen Shake Effect (Funny Stuff)
+        function shakeScreen() {
+            const body = document.body;
+            let x = 0;
+            const interval = setInterval(() => {
+                x++;
+                const moveX = Math.random() * 20 - 10;
+                const moveY = Math.random() * 20 - 10;
+                body.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                if (x > 10) {
+                    clearInterval(interval);
+                    body.style.transform = 'translate(0,0)';
+                    alert('قلنا لك لا تضغط! 😅');
+                }
+            }, 50);
+        }
+
+        // 4. TV Static/Play Effect
+        function playEffect() {
+            const screen = document.querySelector('.tv-content');
+            screen.innerHTML = "<h1 style='font-size:50px'>🚀</h1><p>جاري الإطلاق...</p>";
+            setTimeout(() => {
+                screen.innerHTML = "<p>... بث تجريبي ...</p>";
+            }, 2000);
+        }
+
+        // 5. Retro Mouse Trail (Sparkles)
+        const canvas = document.getElementById('trail-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 5 + 1;
+                this.speedX = Math.random() * 3 - 1.5;
+                this.speedY = Math.random() * 3 - 1.5;
+                this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.1;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            for (let i = 0; i < 3; i++) {
+                particles.push(new Particle(e.x, e.y));
+            }
+        });
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].size <= 0.2) {
+                    particles.splice(i, 1);
+                    i--;
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+    </script>
+</body>
+</html>
