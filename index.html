@@ -3,919 +3,331 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spacetoon Legacy 4.0 | الألعاب تعمل الآن!</title>
-    
-    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
-    <link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet" />
-
-    <script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-hls@5.15.0/dist/videojs-contrib-hls.min.js"></script>
-
+    <title>موقع سبيستون - جيل الطيبين</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* --- CORE RETRO 2013 CSS STYLING --- */
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
-
         :root {
-            --action-color: #ff4d4d;
-            --adventure-color: #4dff4d;
-            --zomoroda-color: #ff99cc;
-            --comedy-color: #ffff66;
-            --sports-color: #3399ff;
-            --science-color: #9999ff;
-            --bg-space: #050510;
-            --current-theme: #ff4d4d; /* Default is Action */
-            --spacetoon-blue: #0066cc;
+            --st-blue-dark: #1e3a8a;
+            --st-blue-light: #3b82f6;
+            --st-yellow: #facc15;
+            --st-purple: #6d28d9;
         }
-
-        * { box-sizing: border-box; }
 
         body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-space);
-            /* Starry background effect */
-            background-image: 
-                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
-                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px);
-            background-size: 550px 550px, 350px 350px;
-            background-position: 0 0, 40px 60px;
+            margin: 0; padding: 0;
             font-family: 'Cairo', sans-serif;
+            background-color: #004aad;
+            background-image: radial-gradient(circle, #0056cc 10%, #003380 90%);
             color: white;
             overflow-x: hidden;
-            transition: background-color 1s ease-in-out;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="font-size:24px"><text y="22">⭐</text></svg>'), auto;
         }
 
-        /* Header & Logo */
-        header {
-            background: linear-gradient(180deg, var(--current-theme) 0%, #ff6600 100%);
+        /* Header & Planets Bar */
+        .top-header {
+            background: linear-gradient(to bottom, #7a288a, #4a148c);
             padding: 15px;
+            border-bottom: 5px solid var(--st-yellow);
             text-align: center;
-            border-bottom: 5px solid #fff;
-            box-shadow: 0 0 20px var(--current-theme);
-            position: relative;
-            z-index: 10;
-            transition: background 1s ease, box-shadow 1s ease;
         }
 
-        h1.logo {
-            margin: 0;
-            font-size: 3.2rem;
-            text-shadow: 4px 4px 0px #000, 7px 7px 0px var(--spacetoon-blue);
-            animation: bounce 2s infinite;
-        }
-
-        /* Marquee Ticker */
-        .news-ticker {
-            background: var(--spacetoon-blue);
-            color: white;
-            padding: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            border-bottom: 3px solid #003366;
-            font-weight: bold;
-        }
-        .news-ticker span {
-            display: inline-block;
-            padding-left: 100%;
-            animation: marquee 15s linear infinite;
-        }
-
-        /* Planets Navigation */
-        .planets-nav {
+        .planets-bar {
             display: flex;
             justify-content: center;
-            flex-wrap: wrap;
-            padding: 20px;
             gap: 15px;
-            background: rgba(0,0,0,0.5);
-            border-bottom: 4px dashed var(--current-theme);
-            transition: border-color 1s ease;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            flex-wrap: wrap;
+            border-radius: 20px;
+            margin: 10px auto;
+            max-width: 95%;
         }
 
-        .planet {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
+        .planet-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 1px 1px 3px #000;
-            box-shadow: 0 0 15px rgba(255,255,255,0.3);
-            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
             cursor: pointer;
-            border: 4px solid #ffffff55;
+            transition: transform 0.3s;
+            width: 85px;
+        }
+
+        .planet-item:hover { transform: scale(1.1); }
+
+        .planet-img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+        }
+
+        .planet-name {
             font-size: 0.8rem;
-            user-select: none;
-        }
-
-        /* Individual Planet Colors */
-        .planet.action { background: radial-gradient(circle at 30% 30%, var(--action-color), #990000); }
-        .planet.adventure { background: radial-gradient(circle at 30% 30%, var(--adventure-color), #006600); }
-        .planet.zomoroda { background: radial-gradient(circle at 30% 30%, var(--zomoroda-color), #cc0066); }
-        .planet.comedy { background: radial-gradient(circle at 30% 30%, var(--comedy-color), #ffcc00); color: #000; }
-        .planet.sports { background: radial-gradient(circle at 30% 30%, var(--sports-color), #003399); }
-        .planet.science { background: radial-gradient(circle at 30% 30%, var(--science-color), #330066); }
-
-        .planet:hover {
-            transform: scale(1.15) rotate(5deg);
-            box-shadow: 0 0 30px currentColor, 0 0 50px rgba(255,255,255,0.5);
-            z-index: 5;
-            border-color: white;
-        }
-
-        /* Icon inside planet */
-        .planet-icon {
-            font-size: 1.5rem;
-            margin-bottom: 3px;
+            font-weight: 900;
+            margin-top: 5px;
+            text-shadow: 2px 2px 4px #000;
         }
 
         /* Main Layout */
-        .container {
-            display: flex;
-            max-width: 1200px;
-            margin: 20px auto;
+        .main-grid {
+            display: grid;
+            grid-template-columns: 220px 1fr 250px;
             gap: 20px;
-            padding: 0 20px;
-        }
-
-        .main-content {
-            flex: 3;
-            background: rgba(255,255,255,0.15);
-            border: 3px solid #ffffff88;
-            border-radius: 20px;
-            padding: 25px;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 0 40px rgba(0,0,0,0.5) inset;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .sidebar {
-            flex: 1;
-            background: rgba(0,0,0,0.7);
-            border-radius: 20px;
-            padding: 15px;
-            border: 3px solid var(--current-theme);
-            transition: border-color 1s ease;
-        }
-
-        h2 {
-            color: var(--current-theme);
-            border-bottom: 3px dashed var(--current-theme);
-            padding-bottom: 10px;
-            transition: color 1s ease, border-color 1s ease;
-        }
-
-        /* TV Screen Effect */
-        .tv-screen {
-            width: 100%;
-            height: 300px;
-            background: #000;
-            border: 10px solid #333;
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            margin-top: 15px;
-        }
-        .tv-content {
-            color: #0f0;
-            font-family: monospace;
-            text-align: center;
-            transition: all 0.5s;
-            width: 100%; /* Ensure content fills the screen */
-            height: 100%;
-        }
-        
-        /* Video Player Styling */
-        .video-js {
-            width: 100% !important;
-            height: 100% !important;
-        }
-        
-        /* Game Grid Section */
-        #game-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-            padding-top: 15px;
-        }
-
-        .game-card {
-            background: #222;
-            border-radius: 10px;
-            overflow: hidden;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-            border: 2px solid #444;
-        }
-
-        .game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px var(--current-theme);
-            border-color: var(--current-theme);
-        }
-
-        .game-card p {
-            padding: 10px 5px;
-            margin: 0;
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
-
-        /* Button Styling */
-        .btn-retro {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: linear-gradient(to bottom, #eeeeee 5%, #cccccc 100%);
-            border: 1px solid #999;
-            border-radius: 10px;
-            color: #333;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 5px 0 #888;
-            transition: all 0.1s;
-            text-shadow: 1px 1px 0px #fff;
-        }
-        .btn-retro:active {
-            transform: translateY(5px);
-            box-shadow: 0 0 0 #888;
-        }
-
-        /* Announcement Banner */
-        #announcement-banner {
-            background-color: var(--current-theme);
-            color: #000;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: bold;
-            box-shadow: 0 0 15px var(--current-theme);
-            transition: background-color 1s ease, box-shadow 1s ease;
-        }
-
-        /* Pop-up (Game Window) */
-        #pop-up-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            padding: 10px; /* Reduced padding for game content */
-            background: linear-gradient(135deg, var(--action-color), var(--adventure-color));
-            border: 5px solid #fff;
+            background: rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             border-radius: 15px;
-            color: white;
-            z-index: 1000;
-            box-shadow: 0 0 40px var(--action-color);
-            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s;
-            opacity: 0;
-            text-align: center;
-            width: 90%;
-            max-width: 600px;
-        }
-        #pop-up-message.show {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
+            padding: 15px;
+            height: fit-content;
         }
 
-        /* Game Launch Window Style */
-        .game-launch-window {
-            background: #1a1a1a;
-            border: 3px solid var(--current-theme);
-            padding: 10px; /* Adjusted padding */
+        .ad-box {
+            width: 100%;
+            height: 350px;
+            background: #111;
+            margin-bottom: 20px;
             border-radius: 10px;
-            margin-top: 15px;
+            border: 2px solid var(--st-yellow);
+            overflow: hidden;
         }
-        
-        /* Actual Game Canvas */
-        #mini-game-canvas {
-            background: #000;
-            border: 2px solid #fff;
-            margin: 10px auto;
-            display: block;
-        }
-        
-        /* Game Info Box */
-        #game-info {
-            color: #ffcc00;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        
-        #game-click-area {
-            background: var(--current-theme);
+
+        .ad-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        .content-area {
+            background: rgba(37, 99, 235, 0.8);
+            border: 6px solid #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             padding: 20px;
-            margin: 10px auto;
-            border-radius: 10px;
-            cursor: pointer;
-            box-shadow: 0 5px 0 #000;
-            transition: all 0.1s;
         }
-        #game-click-area:active {
-            transform: translateY(5px);
-            box-shadow: 0 0 0 #000;
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background: #000;
+            border-radius: 12px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%; border: 0;
+        }
+
+        /* Social Icons */
+        .social-bar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .social-icon {
+            width: 45px; height: 45px;
+            background: white; color: #333;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none; font-size: 1.2rem;
+            transition: 0.3s;
+        }
+
+        .social-icon.yt { color: #ff0000; }
+        .social-icon:hover { transform: translateY(-5px); background: var(--st-yellow); }
+
+        /* Games Styling */
+        .game-window {
+            margin-top: 35px;
+            background: #111;
+            border: 4px solid var(--st-yellow);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .game-overlay {
+            width: 400px; height: 300px;
+            background: rgba(0,0,0,0.85);
+            position: absolute; z-index: 10;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+
+        canvas { background: #000; display: block; margin: 0 auto; }
+
+        .btn-play {
+            background: var(--st-yellow); color: black;
+            border: none; padding: 12px 30px;
+            font-size: 1.2rem; font-weight: bold;
+            border-radius: 50px; cursor: pointer;
+        }
+
+        footer {
+            text-align: center; padding: 25px;
+            background: #111; margin-top: 50px;
+            border-top: 4px solid var(--st-yellow);
+        }
+
+        @media (max-width: 1000px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
         }
     </style>
-    
-    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
 </head>
 <body>
 
-    <canvas id="trail-canvas"></canvas>
+<div class="top-header">
+    <img src="https://upload.wikimedia.org/wikipedia/ar/archive/1/10/20220105065429%21شعار_سبيستون.png" alt="Logo" width="150">
     
-    <div id="pop-up-message">
-        <h3 id="popup-title"></h3>
-        <div class="game-launch-window">
-            <div id="game-content-container">
-                <canvas id="mini-game-canvas" width="400" height="250"></canvas>
-                <div id="game-info"></div>
-            </div>
-            
-            <p id="popup-text" style="color: #eee; font-size: 1rem; margin-top: 10px;"></p>
+    <div class="planets-bar">
+        <div class="planet-item">
+            <img src="https://github.com/Mastergive/randompngtosave/blob/main/Action_planet-Photoroom.png?raw=true" onerror="this.src='https://via.placeholder.com/70?text=Action'" class="planet-img">
+            <span class="planet-name">أكشن</span>
         </div>
-        <button class="btn-retro" style="background:#555; color:white; margin-top:15px;" onclick="closePopup()">إغلاق / خروج من اللعبة</button>
-    </div>
-
-    <header>
-        <h1 class="logo">SPACETOON 4.0</h1>
-        <p>قناة شباب المستقبل - نسخة الجيل الذهبي</p>
-    </header>
-
-    <div class="news-ticker">
-        <span>⭐ خبر عاجل: الألعاب تعمل الآن! ⭐ البث المباشر متاح على جميع الكواكب! ⭐ عودة أبطال الديجيتال!</span>
-    </div>
-
-    <div class="planets-nav">
-        <div class="planet action" onclick="changeTheme('action', 'أكشن', 'أسرعوا! القوة والقتال تنتظركم!', '⚔️')">
-            <span class="planet-icon">💥</span> أكشن
+        <div class="planet-item">
+            <img src="https://github.com/Mastergive/randompngtosave/blob/main/Adventure-Photoroom.png?raw=true" onerror="this.src='https://via.placeholder.com/70?text=Adventure'" class="planet-img">
+            <span class="planet-name">مغامرات</span>
         </div>
-        <div class="planet adventure" onclick="changeTheme('adventure', 'مغامرات', 'استكشف عوالم جديدة وألغاز قديمة!', '🗺️')">
-            <span class="planet-icon">🧭</span> مغامرات
+        <div class="planet-item">
+            <img src="https://github.com/Mastergive/randompngtosave/blob/main/Sports-Photoroom.png?raw=true" onerror="this.src='https://via.placeholder.com/70?text=Sports'" class="planet-img">
+            <span class="planet-name">رياضة</span>
         </div>
-        <div class="planet zomoroda" onclick="changeTheme('zomoroda', 'زمردة', 'مملكة اللطافة والموضة. مرحبا بالفتيات!', '👑')">
-            <span class="planet-icon">💖</span> زمردة
+        <div class="planet-item">
+            <img src="https://github.com/Mastergive/randompngtosave/blob/main/Planet_Bon_Bon_New.png?raw=true" onerror="this.src='https://via.placeholder.com/70?text=Bonbon'" class="planet-img">
+            <span class="planet-name">بون بون</span>
         </div>
-        <div class="planet comedy" onclick="changeTheme('comedy', 'كوميديا', 'استعد للضحك حتى البكاء، لا حدود للمزاح!', '😂')">
-            <span class="planet-icon">🤪</span> كوميديا
+        <div class="planet-item">
+            <img src="https://github.com/Mastergive/randompngtosave/blob/main/%D9%83%D9%88%D9%83%D8%A8_%D9%83%D9%88%D9%85%D9%8A%D8%AF%D9%8A%D8%A7-Photoroom.png?raw=true" onerror="this.src='https://via.placeholder.com/70?text=Comedy'" class="planet-img">
+            <span class="planet-name">كوميديا</span>
         </div>
-        <div class="planet sports" onclick="changeTheme('sports', 'رياضة', 'تنافس بشرف وقوة لتحقيق النصر!', '⚽')">
-            <span class="planet-icon">🏆</span> رياضة
-        </div>
-        <div class="planet science" onclick="changeTheme('science', 'علوم', 'تعلم واكتشف حقائق الكون المذهلة!', '🔬')">
-            <span class="planet-icon">🧠</span> علوم
+        <div class="planet-item">
+            <img src="https://github.com/Mastergive/randompngtosave/blob/main/%D9%83%D9%88%D9%83%D8%A8_%D8%B2%D9%85%D8%B1%D8%AF%D8%A9-Photoroom.png?raw=true" onerror="this.src='https://via.placeholder.com/70?text=Zomoroda'" class="planet-img">
+            <span class="planet-name">زمردة</span>
         </div>
     </div>
+</div>
 
-    <div class="container">
-        <main class="main-content">
-            <div id="announcement-banner">
-                🌟 مرحباً بكم! هذه المنطقة مخصصة لألعاب كوكب **أكشن**.
-            </div>
+<div class="main-grid">
+    <aside class="sidebar">
+        <h3 style="color:var(--st-yellow)"><i class="fas fa-download"></i> مركز التحميل</h3>
+        <div class="ad-box">
+            <img src="https://m.media-amazon.com/images/I/81L7-oO7uHL._AC_SL1500_.jpg" alt="Spider-Man Ad">
+        </div>
+        <ul style="list-style: none; padding: 0; font-weight: bold;">
+            <li style="margin: 10px 0;"><a href="#" style="color: var(--st-yellow); text-decoration: none;">🏠 الرئيسية</a></li>
+            <li style="margin: 10px 0;"><a href="#" style="color: white; text-decoration: none;">🎮 مركز الألعاب</a></li>
+        </ul>
+    </aside>
 
-            <h2 id="planet-title">مرحباً بكم في سبيستون ليجاسي</h2>
-            
-            <div id="planet-status">
-                <p>✅ **حالة الكوكب:** نشط بالكامل. تذكر قوانين اللعب النظيف!</p>
-            </div>
-            
-            <div class="tv-screen" id="tv">
-                <div class="tv-content">
-                    <video
-                        id="spacetoon-player"
-                        class="video-js vjs-default-skin"
-                        controls
-                        preload="auto"
-                        poster="https://i.ytimg.com/vi/WkHq5wFm5_c/maxresdefault.jpg"
-                        data-setup='{}'>
-                        <source src="" type="application/x-mpegURL" />
-                        <p class="vjs-no-js">
-                            لم يتم تحميل مشغل الفيديو.
-                        </p>
-                    </video>
+    <main class="content-area">
+        <h2 style="text-align: center; color: var(--st-yellow); text-shadow: 2px 2px black;">
+            <i class="fas fa-broadcast-tower"></i> البث المباشر - شباب المستقبل
+        </h2>
+        
+        <div class="video-container">
+            <iframe src="https://odysee.com/$/embed/@SpacetoonOld:d/ST-Old:2?autoplay=1" allowfullscreen></iframe>
+        </div>
+
+        <div class="social-bar">
+            <a href="https://www.youtube.com/user/spacetoononline" target="_blank" class="social-icon yt"><i class="fab fa-youtube"></i></a>
+            <a href="https://facebook.com/spacetoon" target="_blank" class="social-icon yt"><i class="fab fa-facebook-f"></i></a>
+        </div>
+
+        <div class="game-window">
+            <h3 style="color: var(--st-yellow)">🎮 لعبة كوكب مغامرات 🐍</h3>
+            <div style="position: relative; display: inline-block;">
+                <div id="gameOverlay" class="game-overlay">
+                    <button class="btn-play" onclick="startGame()">إضغط للعب الآن</button>
                 </div>
+                <canvas id="snakeGame" width="400" height="300"></canvas>
             </div>
+            <p>النقاط: <span id="score" style="color:var(--st-yellow); font-size:1.5rem">0</span></p>
+        </div>
+    </main>
 
-            <button class="btn-retro" style="background:linear-gradient(to right, #66ccff, #0099ff); color:white; margin-top:20px;" onclick="playEffect()">📺 تشغيل العرض (فيديو تجريبي)</button>
+    <aside class="sidebar">
+        <h3 style="color:var(--st-yellow)"><i class="fas fa-newspaper"></i> آخر الأخبار</h3>
+        <p>✨ عودة المحقق كونان بجزء جديد!</p>
+        <iframe width="100%" height="160" src="https://www.youtube.com/embed/cP6DhogDqEg" frameborder="0" allowfullscreen style="border-radius: 8px;"></iframe>
+    </aside>
+</div>
 
+<footer>
+    <p>© جميع الحقوق محفوظة لقناة سبيستون - نسخة أيمن</p>
+</footer>
 
-            <h3>🕹️ ألعاب الكوكب</h3>
-            <div id="game-section">
-                </div>
+<script>
+    // SNAKE GAME CODE (STAYED THE SAME BUT FIXED FOR RESTART)
+    const canvas = document.getElementById("snakeGame");
+    const ctx = canvas.getContext("2d");
+    const overlay = document.getElementById("gameOverlay");
+    let score, snake, dx, dy, gameRunning = false;
 
-            <button class="btn-retro" style="background:linear-gradient(to right, #ffcc00, #ff6600); color:white; margin-top:20px;" onclick="loadMoreGames()">➕ تحميل المزيد من الألعاب</button>
-        </main>
-
-        <aside class="sidebar">
-            <h3 style="color:white; border-bottom:3px solid white;">مركز المساعدة</h3>
-            <button class="btn-retro" style="background:#00aaff; color:white; border-color:#0088cc;" onclick="showBasicPopup('دليل الكواكب', 'اختر كوكباً لتغيير محتوى الموقع، مشاهدة العروض، والتعرف على الألعاب الخاصة به.', '#00aaff')">دليل استخدام الموقع</button>
-            <button class="btn-retro" style="background:#ff7700; color:white; border-color:#cc5500;" onclick="showSecretCode()">🔒 رمز سري (تجربة)</button>
-            
-            <hr style="border-color: #555;">
-            
-            <h3>ألعاب و تسلية</h3>
-            <button class="btn-retro" onclick="randomFact()">💡 هل تعلم؟</button>
-            <div id="fact-box" style="padding:10px; font-size:0.9rem;"></div>
-            
-            <hr style="border-color: #555;">
-            
-            <h3 style="color:white; border-bottom:3px solid white;">عداد الزوار</h3>
-            <div style="font-size:2rem; text-align:center; color:var(--current-theme);" id="visitor-count">123456</div>
-            <p style="text-align:center; font-size:0.8rem;">زائر فريد اليوم</p>
-            
-            <hr style="border-color: #555;">
-
-            <button class="btn-retro" style="background:red; color:white; border-color:darkred;" onclick="shakeScreen()">🚫 لا تضغط هنا</button>
-
-        </aside>
-    </div>
-
-    <script>
-        // --- JAVASCRIPT LOGIC AND EFFECTS ---
-
-        const COLORS = {
-            'action': '#ff4d4d',
-            'adventure': '#4dff4d',
-            'zomoroda': '#ff99cc',
-            'comedy': '#ffff66',
-            'sports': '#3399ff',
-            'science': '#9999ff'
-        };
-
-        const GAMES = {
-            'action': [
-                { name: "قتال الأبطال (نقرات)", icon: "👊", desc: "لعبة سرعة النقر (Canvas)." },
-                { name: "مطاردة النجوم", icon: "🚔", desc: "محاكاة قوية." },
-                { name: "النينجا الصغير", icon: "🥷", desc: "محاكاة تسلل." }
-            ],
-            'adventure': [
-                { name: "صندوق الكنز", icon: "🪙", desc: "محاكاة بحث." },
-                { name: "غابات الأمازون", icon: "🌿", desc: "محاكاة استكشاف." }
-            ],
-            'zomoroda': [
-                { name: "أزياء الأميرة", icon: "👗", desc: "محاكاة تلبيس." },
-                { name: "مطبخ الأحلام", icon: "🍰", desc: "محاكاة طبخ." }
-            ],
-            'comedy': [
-                { name: "المقالب المضحكة", icon: "🎈", desc: "محاكاة مزرعة مقلبك." },
-                { name: "هروب القط", icon: "🐈", desc: "محاكاة جري لا نهاية له." }
-            ],
-            'sports': [
-                { name: "ضربة الجزاء", icon: "🥅", desc: "محاكاة تسديد." },
-                { name: "سباق الدراجات", icon: "🚴", desc: "محاكاة سباق." }
-            ],
-            'science': [
-                { name: "مختبر الكيمياء", icon: "🧪", desc: "محاكاة تجربة." },
-                { name: "بناء الروبوت", icon: "🤖", desc: "محاكاة تصميم آلة." }
-            ]
-        };
-        
-        // Use a generic placeholder video (Spacetoon Intro)
-        const VIDEO_SOURCE = "https://shd-gcp-live.edgenextcdn.net/live/bitmovin-spacetoon/d8382fb9ab4b2307058f12c7ea90db54/index.m3u8"; // Replace with your stable Spacetoon URL if available
-        
-        let currentPlanet = 'action';
-        let popupInterval;
-        let gameActive = false;
-        let gameTimer;
-        let gameClicks = 0;
-        let playerInstance; // Video.js instance
-
-        // Helper to get Arabic name
-        function getArabicName(key) {
-            const names = {
-                'action': 'أكشن', 'adventure': 'مغامرات', 'zomoroda': 'زمردة',
-                'comedy': 'كوميديا', 'sports': 'رياضة', 'science': 'علوم'
-            };
-            return names[key] || 'غير معروف';
-        }
-
-        // --- CORE FUNCTIONS ---
-
-        // 1. Theme Changer & Content Loader
-        function changeTheme(planetKey, arabicName, message, icon) {
-            const color = COLORS[planetKey];
-            currentPlanet = planetKey;
-            
-            // CSS Variable Update
-            document.documentElement.style.setProperty('--current-theme', color);
-            
-            // Update Header BG to match theme
-            document.querySelector('header').style.background = `linear-gradient(180deg, ${color} 0%, #ff6600 100%)`;
-            document.querySelector('header').style.boxShadow = `0 0 20px ${color}`;
-
-            // Content Update
-            document.getElementById('planet-title').innerText = `أهلاً بك في كوكب ${arabicName}`;
-            document.getElementById('announcement-banner').innerHTML = `${icon} مرحباً بكم! هذه المنطقة مخصصة لألعاب كوكب **${arabicName}**.`;
-            document.getElementById('planet-status').innerHTML = `✅ **حالة الكوكب:** ${message}`;
-
-            // Load Games
-            loadGames(planetKey);
-            
-            // Stop video on planet change
-            if (playerInstance) {
-                playerInstance.pause();
-                playerInstance.currentTime(0);
-            }
-        }
-
-        // 2. Game Loading Function (Now uses launchGame)
-        function loadGames(planetKey) {
-            const gameSection = document.getElementById('game-section');
-            gameSection.innerHTML = ''; // Clear previous games
-            
-            const gamesList = GAMES[planetKey];
-            
-            gamesList.forEach(game => {
-                const card = document.createElement('div');
-                card.classList.add('game-card');
-                card.innerHTML = `
-                    <div style="height:120px; background:${COLORS[planetKey]}20; display:flex; align-items:center; justify-content:center; font-size:3rem; border-bottom:2px solid ${COLORS[planetKey]}">
-                        ${game.icon}
-                    </div>
-                    <p>${game.name}</p>
-                    <p style="font-size:0.75rem; color:#aaa; padding:0 5px 10px 5px;">${game.desc}</p>
-                `;
-                // ACTION: Launch the *actual* Mini-Game if the name contains 'نقرات'
-                if (game.name.includes('نقرات')) {
-                     card.onclick = () => launchGame(game.name, planetKey, true); // True to indicate actual game
-                } else {
-                     card.onclick = () => launchGame(game.name, planetKey, false); // False for simulation
-                }
-                gameSection.appendChild(card);
-            });
-        }
-        
-        // 3. Game Launcher Function (Handles both simulation and actual mini-game)
-        function launchGame(gameName, planetKey, isActualGame) {
-            const color = COLORS[planetKey];
-            const popup = document.getElementById('pop-up-message');
-            const popupTitle = document.getElementById('popup-title');
-            const popupText = document.getElementById('popup-text');
-            const gameContentContainer = document.getElementById('game-content-container');
-            const gameCanvas = document.getElementById('mini-game-canvas');
-
-            popupTitle.innerText = `🎮 تشغيل لعبة: ${gameName}`;
-            popup.style.background = `linear-gradient(135deg, ${color}, #111)`;
-            popup.style.boxShadow = `0 0 40px ${color}`;
-            
-            // Reset state
-            gameContentContainer.innerHTML = ''; 
-            popupText.innerText = '';
-            
-            if (isActualGame) {
-                // --- ACTUAL MINI-GAME LOGIC (Canvas Clicker) ---
-                
-                gameContentContainer.appendChild(gameCanvas);
-                gameContentContainer.innerHTML += '<div id="game-info"></div>';
-                
-                gameCanvas.style.display = 'block';
-                popupText.innerText = 'استعد لـ "اختبار السرعة" في 5 ثواني! انقر في المنطقة الحمراء بأسرع ما يمكن.';
-                
-                // Set click area
-                const clickArea = document.createElement('div');
-                clickArea.id = 'game-click-area';
-                clickArea.style.backgroundColor = color;
-                clickArea.innerHTML = '<h2>انقر هنا!</h2><p id="click-counter">النقرات: 0</p>';
-                gameContentContainer.appendChild(clickArea);
-                
-                // Wait for the popup to show before starting the game
-                setTimeout(() => {
-                    startGame(clickArea, gameCanvas);
-                }, 500); 
-
-            } else {
-                // --- SIMULATION LOGIC (Old Loading Bar) ---
-                 gameCanvas.style.display = 'none';
-                 gameContentContainer.innerHTML = `
-                    <p id="popup-text-sim" style="color: #eee;">جاري التحقق من اتصال شبكة سبيستون... (يرجى الانتظار ⏳)</p>
-                    <div id="game-progress" class="progress-bar-container">
-                        <div id="progress-bar" class="progress-bar"></div>
-                    </div>
-                    <p id="game-status" style="font-size:0.8rem; color:#aaa;">حالة التحميل: 0%</p>
-                 `;
-                 
-                 const progressBar = document.getElementById('progress-bar');
-                 const gameStatus = document.getElementById('game-status');
-                 const popupTextSim = document.getElementById('popup-text-sim');
-
-                 let progress = 0;
-                 const steps = [
-                     { p: 20, msg: "جاري تحميل محرك الأبعاد الثلاثية... 🚀" },
-                     { p: 50, msg: "جارٍ فك ضغط ملفات الكوكب... 🌌" },
-                     { p: 80, msg: "جاري مزامنة بيانات اللاعبين عبر شبكة سبيستون..." },
-                     { p: 100, msg: "تم التحميل بنجاح! اضغط إغلاق للعب." }
-                 ];
-                 let stepIndex = 0;
-
-                 if (popupInterval) clearInterval(popupInterval);
-
-                 popupInterval = setInterval(() => {
-                     if (progress < 100) {
-                         progress += 1 + Math.random() * 5; 
-                         if (progress > 100) progress = 100;
-
-                         progressBar.style.width = `${progress}%`;
-                         gameStatus.innerText = `حالة التحميل: ${Math.floor(progress)}%`;
-
-                         if (stepIndex < steps.length && progress >= steps[stepIndex].p) {
-                             popupTextSim.innerText = steps[stepIndex].msg;
-                             stepIndex++;
-                         }
-                     } else {
-                         clearInterval(popupInterval);
-                     }
-                 }, 100); 
-            }
-            
-            popup.classList.add('show');
-        }
-        
-        // --- MINI-GAME LOGIC (Simple Clicker) ---
-        function startGame(clickArea, canvas) {
-            gameClicks = 0;
-            gameActive = true;
-            const gameDuration = 5; // seconds
-            let timeRemaining = gameDuration;
-
-            const clickCounter = document.getElementById('click-counter');
-            const gameInfo = document.getElementById('game-info');
-            
-            gameInfo.innerText = `الوقت المتبقي: ${timeRemaining} ثوانٍ`;
-
-            // Canvas drawing (just for effect)
-            const ctx = canvas.getContext('2d');
-            
-            function drawCanvas() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = COLORS[currentPlanet];
-                // Draw a simple, energetic shape based on the theme color
-                ctx.fillRect(10, 10, canvas.width - 20, 10);
-                ctx.fillRect(10, canvas.height - 20, canvas.width - 20, 10);
-            }
-            drawCanvas(); // Initial draw
-
-            // Click listener
-            const clickHandler = () => {
-                if (gameActive) {
-                    gameClicks++;
-                    clickCounter.innerText = `النقرات: ${gameClicks}`;
-                }
-            };
-            clickArea.addEventListener('click', clickHandler);
-
-            // Timer
-            gameTimer = setInterval(() => {
-                timeRemaining--;
-                gameInfo.innerText = `الوقت المتبقي: ${timeRemaining} ثوانٍ`;
-
-                if (timeRemaining <= 0) {
-                    clearInterval(gameTimer);
-                    gameActive = false;
-                    clickArea.removeEventListener('click', clickHandler);
-                    
-                    const score = (gameClicks / gameDuration).toFixed(2);
-                    gameInfo.innerHTML = `انتهى الوقت! <br> **سجلت ${gameClicks} نقرة** بمعدل **${score}** نقرة/ثانية.`;
-                    clickArea.innerHTML = '<h2>انتهت اللعبة!</h2>';
-                    
-                    document.getElementById('popup-text').innerText = `تهانينا! لقد أثبتت جدارتك في اختبار السرعة.`;
-                }
-            }, 1000);
-            
-            // Cleanup on close
-            window.cleanupGame = () => {
-                clearInterval(gameTimer);
-                gameActive = false;
-                clickArea.removeEventListener('click', clickHandler);
-            }
-        }
-        
-        // 4. Close Popup (Handles Game Cleanup)
-        function closePopup() {
-            document.getElementById('pop-up-message').classList.remove('show');
-            if (popupInterval) clearInterval(popupInterval);
-            if (window.cleanupGame) {
-                window.cleanupGame();
-            }
-            // Re-hide the canvas and click area for clean state
-            const gameCanvas = document.getElementById('mini-game-canvas');
-            if (gameCanvas) gameCanvas.style.display = 'none';
-        }
-
-
-        // 5. TV Live Stream Logic (Using Video.js)
-        
-        function playEffect() {
-    const screen = document.querySelector('.tv-screen');
-    const playerElement = document.getElementById('spacetoon-player');
-    const activeVideoSource = VIDEO_SOURCE;
-    
-    // **الجزء 1: تهيئة المشغل (يتم مرة واحدة فقط)**
-    if (!playerInstance) {
-        // تهيئة المشغل لأول مرة مع الإعدادات الصحيحة للبث الحي (HLS)
-        playerInstance = videojs('spacetoon-player', {
-            controls: true,
-            autoplay: false,
-            preload: 'auto',
-            fluid: true, 
-            techOrder: ['html5'], // إجبار المتصفح على استخدام تقنية HTML5 (مع دعم HLS)
-            // يمكن إضافة خيارات HLS إضافية هنا إذا لزم الأمر
-            hls: {
-                withCredentials: false 
-            }
-        });
-        
-        // **ملاحظة مهمة جداً:** لا تقم بتهيئة المشغل بعد تحديث الـ innerHTML.
-
-    } else {
-        // إذا كان المشغل موجوداً بالفعل، قم بإيقافه وإرجاع الوقت للصفر للتأكد من تحديث البث
-        playerInstance.pause();
-        playerInstance.currentTime(0);
+    function startGame() {
+        overlay.style.display = "none";
+        gameRunning = true;
+        score = 0;
+        snake = [{x: 200, y: 150}];
+        dx = 10; dy = 0;
+        document.getElementById('score').innerHTML = score;
+        createFood();
+        gameLoop();
     }
-    
-    // **الجزء 2: تحديث مصدر البث والتشغيل**
-    
-    // 1. تحديث المصدر (باستخدام نوع application/x-mpegURL)
-    playerInstance.src({ 
-        type: "application/x-mpegURL", 
-        src: activeVideoSource 
-    });
 
-    // 2. محاولة التشغيل مع معالجة خطأ التشغيل التلقائي
-    playerInstance.ready(function() {
-        // إزالة أي فئات قديمة تمنع الرؤية
-        playerElement.style.display = 'block'; 
-
-        // تفعيل تأثير "تشويش" التشغيل القديم (اختياري)
-        screen.classList.add('flicker-on');
+    function gameLoop() {
+        if (!gameRunning) return;
+        if (didGameEnd()) {
+            gameRunning = false;
+            overlay.style.display = "flex";
+            overlay.innerHTML = `<h2 style="color:red">خسرت!</h2><button class="btn-play" onclick="startGame()">حاول مرة أخرى</button>`;
+            return;
+        }
         setTimeout(() => {
-            screen.classList.remove('flicker-on');
-        }, 1500);
+            clearCanvas();
+            drawFood();
+            advanceSnake();
+            drawSnake();
+            gameLoop();
+        }, 100);
+    }
 
-        this.play().catch(error => {
-            console.error("Video Autoplay failed:", error);
-            
-            // إذا فشل التشغيل التلقائي، قم بعرض رسالة واضحة للمستخدم
-            const message = `<div style="text-align: center; padding: 20px;">
-                                <p style="color:red; font-size:1.1rem;">⚠️ فشل التشغيل التلقائي. يرجى الضغط على زر التشغيل (Play) في المشغل أدناه.</p>
-                            </div>`;
-            
-            // ضع رسالة الخطأ فوق المشغل (اختياري)
-            // يمكنك استخدام عنصر منفصل لعرض هذه الرسالة بدلاً من تغيير محتوى screen
+    function clearCanvas() { ctx.fillStyle = "black"; ctx.fillRect(0, 0, canvas.width, canvas.height); }
+    function drawSnake() {
+        snake.forEach(part => {
+            ctx.fillStyle = "#facc15";
+            ctx.fillRect(part.x, part.y, 10, 10);
         });
+    }
+    function advanceSnake() {
+        const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+        snake.unshift(head);
+        if (head.x === food.x && head.y === food.y) {
+            score += 10;
+            document.getElementById('score').innerHTML = score;
+            createFood();
+        } else { snake.pop(); }
+    }
+    function didGameEnd() {
+        return snake[0].x < 0 || snake[0].x > 390 || snake[0].y < 0 || snake[0].y > 290;
+    }
+    let food = {x: 0, y: 0};
+    function createFood() {
+        food.x = Math.floor(Math.random() * 39) * 10;
+        food.y = Math.floor(Math.random() * 29) * 10;
+    }
+    function drawFood() { ctx.fillStyle = "red"; ctx.fillRect(food.x, food.y, 10, 10); }
+
+    document.addEventListener("keydown", (e) => {
+        if (!gameRunning) return;
+        if (e.keyCode === 37 && dx === 0) { dx = -10; dy = 0; }
+        if (e.keyCode === 38 && dy === 0) { dx = 0; dy = -10; }
+        if (e.keyCode === 39 && dx === 0) { dx = 10; dy = 0; }
+        if (e.keyCode === 40 && dy === 0) { dx = 0; dy = 10; }
     });
-}
-        // ... (Other functions like loadMoreGames, showBasicPopup, showSecretCode, animateVisitorCount, randomFact, shakeScreen, mouse trail remain the same as previous code) ...
-
-        // Helper function for simple popup (re-added for clean state)
-        function showBasicPopup(title, text, bgColor) {
-             const popup = document.getElementById('pop-up-message');
-             document.getElementById('popup-title').innerText = title;
-             document.getElementById('game-content-container').innerHTML = `<p id="popup-text" style="color: #eee; padding: 20px;">${text}</p>`;
-             
-             const color1 = bgColor;
-             const color2 = '#fff';
-             popup.style.background = `linear-gradient(135deg, ${color1}, ${color2}20)`;
-             popup.style.boxShadow = `0 0 40px ${color1}`;
-             
-             popup.classList.add('show');
-             if (popupInterval) clearInterval(popupInterval);
-             if (window.cleanupGame) window.cleanupGame(); // Cleanup any running game
-        }
-        
-        // 10. Initialization
-        window.onload = function() {
-            // Start with the default theme (Action)
-            changeTheme('action', 'أكشن', 'أسرعوا! القوة والقتال تنتظركم!', '⚔️');
-            animateVisitorCount();
-            
-            // Initialize Video.js Player Placeholder
-            playerInstance = videojs('spacetoon-player');
-        };
-
-        // --- (Copied and simplified versions of other functions for completeness) ---
-
-        function loadMoreGames() {
-            showBasicPopup('تحميل إضافي...', 'جاري البحث في سحابة سبيستون عن ألعاب أخرى...', '#fff');
-            setTimeout(() => {
-                const newGame = { name: `لعبة إضافية لكوكب ${getArabicName(currentPlanet)}`, icon: "🎁", desc: "مفاجأة غير متوقعة!" };
-                GAMES[currentPlanet].push(newGame);
-                loadGames(currentPlanet);
-                showBasicPopup('تم التحميل!', 'تمت إضافة لعبة جديدة بنجاح إلى القائمة!', '#0f0');
-            }, 1500);
-        }
-
-        const FACTS = [
-            "هل تعلم أن صوت المحقق كونان هو نفس صوت الكابتن ماجد؟",
-            "سابق ولاحق تم إنتاجه لتحفيز الأطفال على سباقات السيارات الصغيرة.",
-            "كوكب بون بون مخصص للأطفال الصغار جداً.",
-            "عدنان ولينا هو أحد أقدم المسلسلات التي عرضت."
-        ];
-        function randomFact() {
-            const fact = FACTS[Math.floor(Math.random() * FACTS.length)];
-            const box = document.getElementById('fact-box');
-            box.style.opacity = '0';
-            setTimeout(() => {
-                box.innerText = fact;
-                box.style.opacity = '1';
-            }, 300);
-        }
-
-        function shakeScreen() {
-            const body = document.body;
-            let x = 0;
-            const interval = setInterval(() => {
-                x++;
-                const moveX = Math.random() * 20 - 10;
-                const moveY = Math.random() * 20 - 10;
-                body.style.transform = `translate(${moveX}px, ${moveY}px)`;
-                if (x > 10) {
-                    clearInterval(interval);
-                    body.style.transform = 'translate(0,0)';
-                    showBasicPopup('😅 عذراً!', 'قلنا لك لا تضغط! كاد الكوكب أن ينفجر.', '#f90');
-                }
-            }, 50);
-        }
-
-        function animateVisitorCount() {
-            const countElement = document.getElementById('visitor-count');
-            let currentCount = parseInt(countElement.innerText);
-            const interval = setInterval(() => {
-                currentCount += Math.floor(Math.random() * 5);
-                countElement.innerText = currentCount.toLocaleString('en'); 
-            }, 1000);
-            setTimeout(() => clearInterval(interval), 30000); 
-        }
-
-        function showSecretCode() {
-            const code = prompt("أدخل الرمز السري القديم لتفعيل وضع السوبر:");
-            if (code && code.toLowerCase() === "spacetoon") {
-                showBasicPopup("🔓 مبروك!", "لقد تذكرت الرمز! تم تفعيل وضع (الجيل الذهبي).", '#ff0');
-                document.body.style.backgroundColor = 'darkorange'; 
-            } else {
-                showBasicPopup("❌ خطأ!", "الرمز خاطئ. حاول تذكره من قديم الزمان...", '#f00');
-            }
-        }
-        
-        // Mouse Trail Logic (kept the same)
-        const canvas = document.getElementById('trail-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        class Particle {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.size = Math.random() * 5 + 1;
-                this.speedX = Math.random() * 3 - 1.5;
-                this.speedY = Math.random() * 3 - 1.5;
-                this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.size > 0.2) this.size -= 0.1;
-            }
-            draw() {
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-        window.addEventListener('mousemove', (e) => {
-            for (let i = 0; i < 3; i++) {
-                particles.push(new Particle(e.x, e.y));
-            }
-        });
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-                if (particles[i].size <= 0.2) {
-                    particles.splice(i, 1);
-                    i--;
-                }
-            }
-            requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
-    </script>
+</script>
 </body>
 </html>
